@@ -26,3 +26,4 @@ ProjectXSLauncher/launcher.log
 ProjectXSLauncher/launcher_watchdog.log
 ProjectXSLauncher/server/projectxs.db
 server/.env
+path/to/sensitive.file
