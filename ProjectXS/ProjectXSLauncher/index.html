@@ -84,10 +84,6 @@
             <span class="tab-icon">🏆</span>
             <span class="tab-label">Season</span>
           </button>
-          <button class="sidebar-tab" data-tab="challenges" title="Challenges">
-            <span class="tab-icon">🎯</span>
-            <span class="tab-label">Challenges</span>
-          </button>
           <button class="sidebar-tab" data-tab="matches" title="Matches">
             <span class="tab-icon">📊</span>
             <span class="tab-label">Matches</span>
@@ -224,10 +220,74 @@
               </div>
             </button>
           </div>
+
+          <!-- Daily Challenges Section -->
+          <div class="challenges-section">
+            <div class="challenges-header">
+              <h2 class="challenges-title">Daily Challenges</h2>
+              <div class="challenges-timer">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M8 4v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>Resets in 18h 42m</span>
+              </div>
+            </div>
+            <div class="challenges-grid">
+              <div class="challenge-card">
+                <div class="challenge-icon">🎯</div>
+                <div class="challenge-info">
+                  <h4 class="challenge-name">First Blood</h4>
+                  <p class="challenge-desc">Get first kill in 3 matches</p>
+                  <div class="challenge-progress">
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 33%"></div>
+                    </div>
+                    <span class="progress-text">1/3</span>
+                  </div>
+                </div>
+                <div class="challenge-reward">
+                  <span class="reward-xp">+500 XP</span>
+                </div>
+              </div>
+              <div class="challenge-card">
+                <div class="challenge-icon">💀</div>
+                <div class="challenge-info">
+                  <h4 class="challenge-name">Ace Operator</h4>
+                  <p class="challenge-desc">Get an Ace (5 kills in one round)</p>
+                  <div class="challenge-progress">
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text">0/1</span>
+                  </div>
+                </div>
+                <div class="challenge-reward">
+                  <span class="reward-xp">+1000 XP</span>
+                </div>
+              </div>
+              <div class="challenge-card">
+                <div class="challenge-icon">⚡</div>
+                <div class="challenge-info">
+                  <h4 class="challenge-name">Ability Master</h4>
+                  <p class="challenge-desc">Get 10 ability kills</p>
+                  <div class="challenge-progress">
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text">0/10</span>
+                  </div>
+                </div>
+                <div class="challenge-reward">
+                  <span class="reward-xp">+750 XP</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Friends Sidebar -->
-        <div class="friends-sidebar">
+        <!-- Friends Sidebar (Auto-hide) -->
+        <div class="friends-sidebar auto-hide" id="friends-sidebar">
           <div class="friends-panel">
             <div class="friends-header">
               <h3>Friends</h3>
@@ -265,45 +325,173 @@
 
     <!-- SEASON TAB -->
     <div class="tab-content" id="tab-season">
-      <div class="coming-soon-container">
-        <div class="coming-soon-icon">🏆</div>
-        <h2 class="coming-soon-title">Seasons Coming Soon</h2>
-        <p class="coming-soon-description">Battle passes, seasonal content, and exclusive rewards will be available once the game launches.</p>
-        <div class="coming-soon-features">
-          <div class="feature-item">✨ Seasonal Battle Pass</div>
-          <div class="feature-item">🎁 Exclusive Rewards</div>
-          <div class="feature-item">🏅 Seasonal Challenges</div>
-          <div class="feature-item">👑 Competitive Rankings</div>
-        </div>
-      </div>
-    </div>
+      <div class="seasons-container" style="padding: 24px;">
+        <!-- Season Pass Section -->
+        <div class="season-pass-section" style="max-width: 1200px; margin: 0 auto;">
+          <div class="season-header">
+            <div class="season-info">
+              <h2 class="season-title">Season 0: Genesis</h2>
+              <p class="season-subtitle">Preseason • Early Access</p>
+            </div>
+            <div class="season-timer">
+              <div class="timer-label">Season Ends In</div>
+              <div class="timer-value">∞ Days</div>
+            </div>
+          </div>
 
-    <!-- CHALLENGES TAB -->
-    <div class="tab-content" id="tab-challenges">
-      <div class="coming-soon-container">
-        <div class="coming-soon-icon">🎯</div>
-        <h2 class="coming-soon-title">Challenges Coming Soon</h2>
-        <p class="coming-soon-description">Daily and weekly challenges will be available to earn rewards once the game launches.</p>
-        <div class="coming-soon-features">
-          <div class="feature-item">📅 Daily Challenges</div>
-          <div class="feature-item">📆 Weekly Missions</div>
-          <div class="feature-item">💎 XP Rewards</div>
-          <div class="feature-item">🏆 Achievement System</div>
+          <!-- Season Pass Progress -->
+          <div class="battle-pass-progress">
+            <div class="pass-header">
+              <div class="pass-level">
+                <span class="level-label">Level</span>
+                <span class="level-value" id="pass-level">1</span>
+                <span class="level-max">/ 50</span>
+              </div>
+              <div class="pass-xp">
+                <span id="pass-xp-current">0</span> / <span id="pass-xp-needed">1000</span> XP
+              </div>
+            </div>
+            <div class="pass-bar">
+              <div class="pass-fill" id="pass-fill" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Reward Tiers Preview -->
+          <div class="rewards-preview">
+            <h3 class="rewards-title">Upcoming Rewards</h3>
+            <div class="rewards-track">
+              <div class="reward-item locked">
+                <div class="reward-level">2</div>
+                <div class="reward-icon">�</div>
+                <div class="reward-name">Weapon Skin</div>
+              </div>
+              <div class="reward-item locked">
+                <div class="reward-level">5</div>
+                <div class="reward-icon">✨</div>
+                <div class="reward-name">Player Card</div>
+              </div>
+              <div class="reward-item locked">
+                <div class="reward-level">10</div>
+                <div class="reward-icon">🎭</div>
+                <div class="reward-name">Character Skin</div>
+              </div>
+              <div class="reward-item locked">
+                <div class="reward-level">15</div>
+                <div class="reward-icon">💎</div>
+                <div class="reward-name">Rare Emote</div>
+              </div>
+              <div class="reward-item locked premium">
+                <div class="reward-level">20</div>
+                <div class="reward-icon">👑</div>
+                <div class="reward-name">Legendary Banner</div>
+                <div class="premium-tag">Premium</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Season Pass Purchase (Placeholder) -->
+          <div class="pass-purchase">
+            <button class="purchase-pass-btn" disabled>
+              <span class="btn-icon">👑</span>
+              <span class="btn-text">Premium Pass - Coming Soon</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- MATCHES TAB -->
     <div class="tab-content" id="tab-matches">
-      <div class="coming-soon-container">
-        <div class="coming-soon-icon">📊</div>
-        <h2 class="coming-soon-title">Match History Coming Soon</h2>
-        <p class="coming-soon-description">View your match statistics, performance, and history once you start playing.</p>
-        <div class="coming-soon-features">
-          <div class="feature-item">📈 Performance Stats</div>
-          <div class="feature-item">🎮 Match Replays</div>
-          <div class="feature-item">🏅 Rankings & Leaderboards</div>
-          <div class="feature-item">📊 Detailed Analytics</div>
+      <div class="seasons-container">
+        <!-- Current Rank Display -->
+        <div class="rank-display-section">
+          <h2 class="section-title">Your Competitive Rank</h2>
+          <div class="rank-card">
+            <div class="rank-badge-container">
+              <div class="rank-badge" id="current-rank-badge">
+                <div class="rank-icon"></div>
+                <div class="rank-name" id="rank-name">Unranked</div>
+              </div>
+              <div class="rank-progress">
+                <div class="rr-display">
+                  <span class="rr-label">RR</span>
+                  <span class="rr-value" id="rank-rr">0</span>
+                  <span class="rr-max">/ 100</span>
+                </div>
+                <div class="rr-bar">
+                  <div class="rr-fill" id="rr-fill" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="rank-stats">
+              <div class="stat-item">
+                <div class="stat-label">Wins</div>
+                <div class="stat-value" id="rank-wins">0</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Losses</div>
+                <div class="stat-value" id="rank-losses">0</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="rank-winrate">0%</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Rank Tiers Reference -->
+          <div class="rank-tiers-grid">
+            <div class="rank-tier" data-rank="initiate">
+              <div class="tier-icon initiate"></div>
+              <div class="tier-name">Initiate</div>
+            </div>
+            <div class="rank-tier" data-rank="operator">
+              <div class="tier-icon operator"></div>
+              <div class="tier-name">Operator</div>
+            </div>
+            <div class="rank-tier" data-rank="specialist">
+              <div class="tier-icon specialist"></div>
+              <div class="tier-name">Specialist</div>
+            </div>
+            <div class="rank-tier" data-rank="elite">
+              <div class="tier-icon elite"></div>
+              <div class="tier-name">Elite</div>
+            </div>
+            <div class="rank-tier" data-rank="vanguard">
+              <div class="tier-icon vanguard"></div>
+              <div class="tier-name">Vanguard</div>
+            </div>
+            <div class="rank-tier" data-rank="phantom">
+              <div class="tier-icon phantom"></div>
+              <div class="tier-name">Phantom</div>
+            </div>
+            <div class="rank-tier" data-rank="eclipse">
+              <div class="tier-icon eclipse"></div>
+              <div class="tier-name">Eclipse</div>
+            </div>
+            <div class="rank-tier" data-rank="apex">
+              <div class="tier-icon apex"></div>
+              <div class="tier-name">Apex</div>
+            </div>
+            <div class="rank-tier" data-rank="sovereign">
+              <div class="tier-icon sovereign"></div>
+              <div class="tier-name">Sovereign</div>
+            </div>
+            <div class="rank-tier" data-rank="nexus">
+              <div class="tier-icon nexus"></div>
+              <div class="tier-name">Nexus</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Match History Section -->
+        <div class="match-history-section">
+          <h2 class="section-title">Recent Matches</h2>
+          <div class="coming-soon-container compact">
+            <div class="coming-soon-icon">📊</div>
+            <h3 class="coming-soon-title">Match History Coming Soon</h3>
+            <p class="coming-soon-description">Your recent competitive matches will appear here.</p>
+          </div>
         </div>
       </div>
     </div>

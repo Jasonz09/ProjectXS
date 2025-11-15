@@ -8,7 +8,14 @@ const characters = [
     name: 'Shadow', 
     fullName: 'Shadow Operative',
     role: 'Challenger', 
-    icon: 'SO', 
+    icon: 'SO',
+    color: '#8B5CF6', // Purple for Challenger role
+    visualDesign: {
+      primaryColor: '#2D1B4E',
+      accentColor: '#8B5CF6',
+      eyeGlow: '#A78BFA',
+      description: 'Sleek tactical mask, glowing purple visor eyes, flowing dark coat'
+    },
     description: 'A skilled challenger specializing in aggressive plays and entry fragging.',
     weapon: {
       name: 'Shadow Strike Pistol',
@@ -48,7 +55,14 @@ const characters = [
     name: 'Void', 
     fullName: 'Void Walker',
     role: 'Controller', 
-    icon: 'VW', 
+    icon: 'VW',
+    color: '#06B6D4', // Cyan for Controller role
+    visualDesign: {
+      primaryColor: '#0C4A6E',
+      accentColor: '#06B6D4',
+      eyeGlow: '#22D3EE',
+      description: 'Ethereal helmet with cyan energy streams, void crystal chest armor'
+    }, 
     description: 'Master of area denial and smoke-based tactical control.',
     weapon: {
       name: 'Void Rifle',
@@ -88,7 +102,14 @@ const characters = [
     name: 'Tech', 
     fullName: 'Tech Specialist',
     role: 'Analyst', 
-    icon: 'TS', 
+    icon: 'TS',
+    color: '#F97316', // Orange for Analyst role
+    visualDesign: {
+      primaryColor: '#78350F',
+      accentColor: '#F97316',
+      eyeGlow: '#FB923C',
+      description: 'High-tech visor with AR display, mechanical jaw, drone units on back'
+    },
     description: 'Defensive expert with advanced technology and traps.',
     weapon: {
       name: 'Tech Scanner SMG',
@@ -125,50 +146,111 @@ const characters = [
   },
   { 
     id: 4, 
-    name: 'Energy', 
-    fullName: 'Energy Wielder',
-    role: 'Resister', 
-    icon: 'EW', 
-    description: 'Initiates team fights with powerful energy-based abilities.',
+    name: 'Blaze', 
+    fullName: 'Fire Duelist',
+    role: 'Duelist', 
+    icon: 'FD',
+    color: '#DC2626', // Red for Duelist role
+    visualDesign: {
+      primaryColor: '#7F1D1D',
+      accentColor: '#DC2626',
+      eyeGlow: '#F87171',
+      description: 'Half-burned mask with flame decals, fiery red hair, flamethrower gauntlet'
+    },
+    description: 'Initiates team fights with powerful fire-based abilities.',
     weapon: {
-      name: 'Plasma Cannon',
-      type: 'Heavy Weapon',
-      description: 'Charged energy weapon that deals explosive area damage'
+      name: 'Inferno Shotgun',
+      type: 'Shotgun',
+      description: 'Close-range weapon that sets enemies on fire with each shot'
     },
     abilities: [
       {
-        name: 'Residual Energy',
+        name: 'Burn Trail',
         type: 'Passive',
-        description: 'Gain 25 temporary shield points for 3 seconds after using an ability'
+        description: 'Leave a trail of fire when sprinting that damages enemies who cross it'
       },
       {
-        name: 'Energy Shield',
+        name: 'Molotov',
         type: 'Ability 1',
-        description: 'Deploy a directional shield that blocks incoming damage and can be picked up by allies'
+        description: 'Throw a molotov cocktail that creates a lingering wall of flames'
       },
       {
-        name: 'Pulse Blast',
+        name: 'Flash Fire',
         type: 'Ability 2',
-        description: 'Fire an energy pulse that stuns enemies in its path and destroys enemy projectiles'
+        description: 'Dash forward in a burst of flames, damaging enemies you pass through'
       },
       {
-        name: 'Chain Lightning',
+        name: 'Flame Wall',
         type: 'Ability 3',
-        description: 'Release lightning that chains between enemies, dealing damage and reducing their movement speed'
+        description: 'Create a vertical wall of fire that blocks vision and damages enemies who pass through'
       },
       {
-        name: 'Overcharge',
+        name: 'Inferno',
         type: 'Ultimate',
-        description: 'Empower all allies with a massive energy surge granting 40% increased damage, movement speed, and shield regeneration for 10 seconds'
+        description: 'Transform into a flame avatar for 8 seconds. Gain damage resistance, fire rate buff, and all abilities recharge instantly'
       }
     ]
   },
   {
     id: 5,
+    name: 'Frost',
+    fullName: 'Ice Sentinel',
+    role: 'Sentinel',
+    icon: 'IS',
+    color: '#0EA5E9', // Ice Blue for Sentinel role
+    visualDesign: {
+      primaryColor: '#0C4A6E',
+      accentColor: '#0EA5E9',
+      eyeGlow: '#7DD3FC',
+      description: 'Crystalline helmet with frozen breath, ice formations on shoulders, glacier armor'
+    },
+    description: 'Master of area denial and defensive ice-based abilities.',
+    weapon: {
+      name: 'Cryo Rifle',
+      type: 'Assault Rifle',
+      description: 'Freezing rounds that slow enemies and can shatter frozen targets'
+    },
+    abilities: [
+      {
+        name: 'Permafrost',
+        type: 'Passive',
+        description: 'Take reduced damage while standing still, and freeze the ground beneath you'
+      },
+      {
+        name: 'Ice Wall',
+        type: 'Ability 1',
+        description: 'Create a solid wall of ice that blocks movement and can be destroyed'
+      },
+      {
+        name: 'Frost Trap',
+        type: 'Ability 2',
+        description: 'Deploy a trap that freezes enemies in place when triggered'
+      },
+      {
+        name: 'Blizzard Orb',
+        type: 'Ability 3',
+        description: 'Throw an orb that creates a zone of slowing frost and blocks vision'
+      },
+      {
+        name: 'Absolute Zero',
+        type: 'Ultimate',
+        description: 'Channel a massive ice storm that freezes all enemies in a large radius for 4 seconds and damages them over time'
+      }
+    ]
+  },
+  {
+    id: 6,
     name: 'Splinter',
     fullName: 'Splinter Agent',
     role: 'Spliter',
     icon: 'SP',
+    color: '#10B981', // Green for Splinter role
+    visualDesign: {
+      primaryColor: '#065F46',
+      accentColor: '#10B981',
+      eyeGlow: '#34D399',
+      description: 'Split visor design, holographic projection systems, clone energy trails'
+    },
     description: 'Master of creating chaos and dividing enemy forces.',
     weapon: {
       name: 'Dual Blades',
@@ -514,8 +596,12 @@ function renderCharactersGrid() {
   
   grid.innerHTML = characters.map((char, index) => `
     <div class="character-card-large ${index === selectedCharacterIndex ? 'selected' : ''}" 
-         data-char-index="${index}">
-      <div class="character-icon-large">${char.icon}</div>
+         data-char-index="${index}"
+         style="--char-color: ${char.color}; --char-primary: ${char.visualDesign.primaryColor}; --char-accent: ${char.visualDesign.accentColor}; --char-glow: ${char.visualDesign.eyeGlow};">
+      <div class="character-portrait-large">
+        <div class="portrait-glow"></div>
+        <div class="character-icon-large">${char.icon}</div>
+      </div>
       <div class="character-name-large">${char.name}</div>
       <div class="character-role-large">${char.role}</div>
       <div class="character-description">${char.description}</div>
@@ -536,6 +622,12 @@ function showCharacterDetails(index) {
   
   // Store current character index for selection
   popup.dataset.charIndex = index;
+  
+  // Apply character color theme to popup
+  popup.style.setProperty('--char-color', char.color);
+  popup.style.setProperty('--char-primary', char.visualDesign.primaryColor);
+  popup.style.setProperty('--char-accent', char.visualDesign.accentColor);
+  popup.style.setProperty('--char-glow', char.visualDesign.eyeGlow);
   
   // Populate popup content
   document.getElementById('popup-char-icon').textContent = char.icon;
@@ -731,6 +823,199 @@ if (saveSettingsBtn) {
   });
 }
 
+// ===============================================
+// RANK SYSTEM DATA
+// ===============================================
+
+const rankTiers = [
+  {
+    id: 'initiate',
+    name: 'Initiate',
+    color: '#71717A',
+    accent: '#A1A1AA',
+    glow: 'rgba(113, 113, 122, 0.5)',
+    minRR: 0,
+    maxRR: 99
+  },
+  {
+    id: 'operator',
+    name: 'Operator',
+    color: '#92400E',
+    accent: '#D97706',
+    glow: 'rgba(217, 119, 6, 0.5)',
+    minRR: 100,
+    maxRR: 199
+  },
+  {
+    id: 'specialist',
+    name: 'Specialist',
+    color: '#64748B',
+    accent: '#CBD5E1',
+    glow: 'rgba(203, 213, 225, 0.5)',
+    minRR: 200,
+    maxRR: 299
+  },
+  {
+    id: 'elite',
+    name: 'Elite',
+    color: '#F59E0B',
+    accent: '#FCD34D',
+    glow: 'rgba(252, 211, 77, 0.5)',
+    minRR: 300,
+    maxRR: 399
+  },
+  {
+    id: 'vanguard',
+    name: 'Vanguard',
+    color: '#06B6D4',
+    accent: '#67E8F9',
+    glow: 'rgba(103, 232, 249, 0.5)',
+    minRR: 400,
+    maxRR: 499
+  },
+  {
+    id: 'phantom',
+    name: 'Phantom',
+    color: '#3B82F6',
+    accent: '#93C5FD',
+    glow: 'rgba(147, 197, 253, 0.5)',
+    minRR: 500,
+    maxRR: 599
+  },
+  {
+    id: 'eclipse',
+    name: 'Eclipse',
+    color: '#8B5CF6',
+    accent: '#C4B5FD',
+    glow: 'rgba(196, 181, 253, 0.5)',
+    minRR: 600,
+    maxRR: 699
+  },
+  {
+    id: 'apex',
+    name: 'Apex',
+    color: '#DC2626',
+    accent: '#FCA5A5',
+    glow: 'rgba(252, 165, 165, 0.5)',
+    minRR: 700,
+    maxRR: 799
+  },
+  {
+    id: 'sovereign',
+    name: 'Sovereign',
+    color: '#FBBF24',
+    accent: '#FEF3C7',
+    glow: 'rgba(251, 191, 36, 0.6)',
+    minRR: 800,
+    maxRR: 899
+  },
+  {
+    id: 'nexus',
+    name: 'Nexus',
+    color: '#A855F7',
+    accent: '#F0ABFC',
+    glow: 'rgba(168, 85, 247, 0.6)',
+    minRR: 900,
+    maxRR: 999
+  }
+];
+
+// Player Rank Data (Mock data for Season 0)
+let playerRankData = {
+  currentRank: 'initiate',
+  rankRating: 0, // RR (0-100 within current rank)
+  totalRR: 0, // Total RR across all ranks
+  wins: 0,
+  losses: 0,
+  seasonLevel: 1,
+  seasonXP: 0
+};
+
+// Initialize Rank Display
+function initRankDisplay() {
+  const rankBadge = document.querySelector('.rank-badge');
+  const rankName = document.getElementById('rank-name');
+  const rrValue = document.getElementById('rank-rr');
+  const rrFill = document.getElementById('rr-fill');
+  const winsEl = document.getElementById('rank-wins');
+  const lossesEl = document.getElementById('rank-losses');
+  const winrateEl = document.getElementById('rank-winrate');
+  
+  if (!rankBadge || !rankName) return;
+  
+  // Find current rank tier
+  const currentTier = rankTiers.find(tier => tier.id === playerRankData.currentRank);
+  if (!currentTier) return;
+  
+  // Set rank colors
+  rankBadge.style.setProperty('--rank-color', currentTier.color);
+  rankBadge.style.setProperty('--rank-accent', currentTier.accent);
+  rankBadge.style.setProperty('--rank-glow', currentTier.glow);
+  
+  // Update rank name
+  rankName.textContent = currentTier.name;
+  
+  // Update RR progress
+  if (rrValue && rrFill) {
+    rrValue.textContent = playerRankData.rankRating;
+    rrFill.style.width = playerRankData.rankRating + '%';
+  }
+  
+  // Update stats
+  if (winsEl) winsEl.textContent = playerRankData.wins;
+  if (lossesEl) lossesEl.textContent = playerRankData.losses;
+  if (winrateEl) {
+    const totalGames = playerRankData.wins + playerRankData.losses;
+    const winrate = totalGames > 0 ? Math.round((playerRankData.wins / totalGames) * 100) : 0;
+    winrateEl.textContent = winrate + '%';
+  }
+}
+
+// Initialize Season Pass Display
+function initSeasonPass() {
+  const passLevel = document.getElementById('pass-level');
+  const passXPCurrent = document.getElementById('pass-xp-current');
+  const passXPNeeded = document.getElementById('pass-xp-needed');
+  const passFill = document.getElementById('pass-fill');
+  
+  if (!passLevel) return;
+  
+  // Calculate XP needed for next level (increases per level)
+  const xpNeeded = 1000 + (playerRankData.seasonLevel * 100);
+  const xpProgress = (playerRankData.seasonXP / xpNeeded) * 100;
+  
+  passLevel.textContent = playerRankData.seasonLevel;
+  if (passXPCurrent) passXPCurrent.textContent = playerRankData.seasonXP;
+  if (passXPNeeded) passXPNeeded.textContent = xpNeeded;
+  if (passFill) passFill.style.width = xpProgress + '%';
+}
+
+// Mock function to update rank (for testing)
+function updateRank(rrChange) {
+  playerRankData.rankRating += rrChange;
+  
+  // Handle rank promotion/demotion
+  if (playerRankData.rankRating >= 100) {
+    const currentIndex = rankTiers.findIndex(tier => tier.id === playerRankData.currentRank);
+    if (currentIndex < rankTiers.length - 1) {
+      playerRankData.currentRank = rankTiers[currentIndex + 1].id;
+      playerRankData.rankRating = 0;
+    } else {
+      playerRankData.rankRating = 100; // Max rank
+    }
+  } else if (playerRankData.rankRating < 0) {
+    const currentIndex = rankTiers.findIndex(tier => tier.id === playerRankData.currentRank);
+    if (currentIndex > 0) {
+      playerRankData.currentRank = rankTiers[currentIndex - 1].id;
+      playerRankData.rankRating = 100;
+    } else {
+      playerRankData.rankRating = 0; // Min rank
+    }
+  }
+  
+  initRankDisplay();
+}
+
 ipcRenderer.on('settings-saved', () => {
   alert('Settings saved successfully!');
 });
@@ -768,7 +1053,54 @@ window.addEventListener('DOMContentLoaded', () => {
   
   // Authenticated, start the launcher
   initLoadingScreen();
+  
+  // Initialize rank and season systems
+  setTimeout(() => {
+    initRankDisplay();
+    initSeasonPass();
+    initAutoHideFriendsSidebar();
+  }, 100);
 });
+
+// Auto-hide Friends Sidebar
+function initAutoHideFriendsSidebar() {
+  const friendsSidebar = document.getElementById('friends-sidebar');
+  if (!friendsSidebar) return;
+  
+  let hideTimeout;
+  const HIDE_DELAY = 300; // ms delay before hiding
+  const TRIGGER_DISTANCE = 150; // pixels from right edge to trigger
+  
+  // Show sidebar when mouse is near right edge
+  document.addEventListener('mousemove', (e) => {
+    const distanceFromRight = window.innerWidth - e.clientX;
+    
+    if (distanceFromRight < TRIGGER_DISTANCE) {
+      clearTimeout(hideTimeout);
+      friendsSidebar.classList.add('visible');
+    } else if (!friendsSidebar.matches(':hover')) {
+      // Only hide if not hovering over sidebar
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        friendsSidebar.classList.remove('visible');
+      }, HIDE_DELAY);
+    }
+  });
+  
+  // Keep visible while hovering
+  friendsSidebar.addEventListener('mouseenter', () => {
+    clearTimeout(hideTimeout);
+    friendsSidebar.classList.add('visible');
+  });
+  
+  // Hide when mouse leaves sidebar
+  friendsSidebar.addEventListener('mouseleave', () => {
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+      friendsSidebar.classList.remove('visible');
+    }, HIDE_DELAY);
+  });
+}
 
 // Handle window resize
 window.addEventListener('resize', () => {

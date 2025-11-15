@@ -223,7 +223,7 @@ body {
 
 /* Main Content Area */
 .main-content-area {
-  margin-left: 0;
+  margin-left: 80px; /* Base margin to prevent overlap with collapsed sidebar */
   height: 100%;
   transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
