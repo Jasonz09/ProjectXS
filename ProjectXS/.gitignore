@@ -24,3 +24,5 @@ build_output.txt
 # Launcher logs
 ProjectXSLauncher/launcher.log
 ProjectXSLauncher/launcher_watchdog.log
+ProjectXSLauncher/server/projectxs.db
+server/.env
