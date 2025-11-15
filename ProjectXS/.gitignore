@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment / secrets
+server/.env
+.env
+
+# Unreal Engine (generated)
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Logs / temp
+*.log
+build_output.txt
+*.tmp
+
+# Launcher logs
+ProjectXSLauncher/launcher.log
+ProjectXSLauncher/launcher_watchdog.log

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjectXS - Verify Email</title>
+  <link rel="stylesheet" href="styles/auth.css">
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Background Effects -->
+    <div class="auth-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Email Verification Form -->
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1 class="auth-logo">PROJECT<span>XS</span></h1>
+        <p class="auth-subtitle">Verify Your Email</p>
+      </div>
+
+      <div class="verification-info">
+        <p>We've sent a 6-digit verification code to:</p>
+        <p class="user-email" id="user-email">Loading...</p>
+        <p class="info-text">Please check your inbox and enter the code below.</p>
+      </div>
+
+      <form class="auth-form" id="verify-form">
+        <div class="form-group">
+          <label for="verification-code">Verification Code</label>
+          <input 
+            type="text" 
+            id="verification-code" 
+            class="form-input code-input" 
+            placeholder="Enter 6-digit code"
+            maxlength="6"
+            pattern="[0-9]{6}"
+            required
+            autofocus
+          >
+        </div>
+
+        <div class="form-message error" id="verify-error"></div>
+        <div class="form-message success" id="verify-success"></div>
+
+        <button type="submit" class="auth-btn primary">
+          <span>Verify Email</span>
+        </button>
+
+        <button type="button" class="auth-btn secondary" id="resend-btn">
+          <span>Resend Code</span>
+        </button>
+
+        <button type="button" class="auth-btn secondary" id="skip-btn">
+          <span>Skip for Now</span>
+        </button>
+      </form>
+
+      <div class="verification-footer">
+        <p class="info-text small">Code expires in 10 minutes</p>
+        <p class="info-text small">Didn't receive the code? Check your spam folder.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    const API_URL = 'http://localhost:3001/api';
+
+    // Get user data from localStorage
+    const tempUser = JSON.parse(localStorage.getItem('tempUser'));
+    const tempToken = localStorage.getItem('tempToken');
+
+    if (!tempUser || !tempToken) {
+      // No temp data, redirect to main launcher
+      window.location.href = 'index.html';
+    }
+
+    // Display email
+    document.getElementById('user-email').textContent = tempUser.email || 'your email';
+
+    // Handle verification form
+    document.getElementById('verify-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const code = document.getElementById('verification-code').value.trim();
+      const errorEl = document.getElementById('verify-error');
+      const successEl = document.getElementById('verify-success');
+      
+      errorEl.textContent = '';
+      successEl.textContent = '';
+      
+      if (!code || code.length !== 6) {
+        errorEl.textContent = 'Please enter a valid 6-digit code';
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/auth/verify-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: tempUser.userId,
+            code: code
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          errorEl.textContent = data.error || 'Verification failed';
+          return;
+        }
+        
+        // Success!
+        successEl.textContent = 'Email verified! Redirecting...';
+        
+        // Update user data and redirect
+        tempUser.emailVerified = true;
+        localStorage.setItem('currentUser', JSON.stringify(tempUser));
+        localStorage.setItem('authToken', tempToken);
+        localStorage.removeItem('tempUser');
+        localStorage.removeItem('tempToken');
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+        
+      } catch (error) {
+        console.error('Verification error:', error);
+        errorEl.textContent = 'Failed to connect to server';
+      }
+    });
+
+    // Resend code
+    document.getElementById('resend-btn').addEventListener('click', async () => {
+      const errorEl = document.getElementById('verify-error');
+      const successEl = document.getElementById('verify-success');
+      
+      errorEl.textContent = '';
+      successEl.textContent = '';
+      
+      try {
+        const response = await fetch(`${API_URL}/auth/resend-verification`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: tempUser.userId
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          errorEl.textContent = data.error || 'Failed to resend code';
+          return;
+        }
+        
+        successEl.textContent = 'New code sent! Check your email.';
+      } catch (error) {
+        console.error('Resend error:', error);
+        errorEl.textContent = 'Failed to connect to server';
+      }
+    });
+
+    // Skip verification
+    document.getElementById('skip-btn').addEventListener('click', () => {
+      // Save user data without verification and continue
+      localStorage.setItem('currentUser', JSON.stringify(tempUser));
+      localStorage.setItem('authToken', tempToken);
+      localStorage.removeItem('tempUser');
+      localStorage.removeItem('tempToken');
+      window.location.href = 'index.html';
+    });
+
+    // Auto-focus on input
+    document.getElementById('verification-code').focus();
+  </script>
+</body>
+</html>

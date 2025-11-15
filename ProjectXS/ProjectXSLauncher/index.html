@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjectXS Launcher</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/loading.css">
+  <link rel="stylesheet" href="styles/lobby.css">
+</head>
+<body>
+  <!-- Custom Title Bar -->
+  <div class="title-bar">
+    <div class="title-bar-left">
+      <div class="app-icon"></div>
+      <span class="app-name">PROJECTXS</span>
+    </div>
+    <div class="title-bar-right">
+      <button class="title-button" id="minimize-btn">
+        <svg width="12" height="2" viewBox="0 0 12 2">
+          <line x1="0" y1="1" x2="12" y2="1" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+      <button class="title-button close" id="close-btn">
+        <svg width="12" height="12" viewBox="0 0 12 12">
+          <line x1="0" y1="0" x2="12" y2="12" stroke="currentColor" stroke-width="2"/>
+          <line x1="12" y1="0" x2="0" y2="12" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Screen (shows first) - Fullscreen, No Header -->
+  <div class="loading-screen active fullscreen" id="loading-screen">
+    <canvas id="particles-canvas"></canvas>
+    <div class="loading-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+    
+    <div class="loading-content">
+      <!-- Logo Circle (like Unreal) -->
+      <div class="logo-container">
+        <div class="logo-ring"></div>
+        <div class="logo-center">
+          <span class="logo-text">XS</span>
+        </div>
+      </div>
+
+      <!-- Loading Text -->
+      <div class="loading-text">
+        <h2 class="loading-title">PROJECTXS</h2>
+        <p class="loading-subtitle" id="loading-subtitle">Loading launcher...</p>
+        <p class="loading-details" id="loading-details">Initializing...</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-percentage" id="progress-percentage">0%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Menu (shows after loading) -->
+  <div class="main-menu" id="main-menu">
+    
+    <!-- Semi-Circular Sidebar (Auto-hide on left) -->
+    <div class="sidebar-nav" id="sidebar-nav">
+      <div class="sidebar-content">
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab active" data-tab="play" title="Play">
+            <span class="tab-icon">🎮</span>
+            <span class="tab-label">Play</span>
+          </button>
+          <button class="sidebar-tab" data-tab="characters" title="Characters">
+            <span class="tab-icon">👤</span>
+            <span class="tab-label">Characters</span>
+          </button>
+          <button class="sidebar-tab" data-tab="season" title="Season">
+            <span class="tab-icon">🏆</span>
+            <span class="tab-label">Season</span>
+          </button>
+          <button class="sidebar-tab" data-tab="challenges" title="Challenges">
+            <span class="tab-icon">🎯</span>
+            <span class="tab-label">Challenges</span>
+          </button>
+          <button class="sidebar-tab" data-tab="matches" title="Matches">
+            <span class="tab-icon">📊</span>
+            <span class="tab-label">Matches</span>
+          </button>
+          <button class="sidebar-tab" data-tab="settings" title="Settings">
+            <span class="tab-icon">⚙️</span>
+            <span class="tab-label">Settings</span>
+          </button>
+        </div>
+      </div>
+      <div class="sidebar-trigger" id="sidebar-trigger"></div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content-area">
+    
+    <!-- Tab Content -->
+    
+    <!-- PLAY TAB -->
+    <div class="tab-content active" id="tab-play">
+      <div class="lobby-layout">
+        <!-- Main Lobby Area -->
+        <div class="lobby-main">
+          
+          <!-- Mode Selector -->
+          <div class="mode-selector">
+            <button class="mode-tab active" data-mode="unrated">Unrated</button>
+            <button class="mode-tab" data-mode="competitive">Competitive</button>
+            <button class="mode-tab" data-mode="deathmatch">Deathmatch</button>
+            <button class="mode-tab" data-mode="custom">Custom</button>
+          </div>
+
+          <!-- Party Section - Modern Redesign -->
+          <div class="party-section">
+            <div class="party-header-modern">
+              <div class="party-title-group">
+                <h2 class="party-title">Your Party</h2>
+                <div class="party-count">
+                  <span class="party-count-filled">1</span>
+                  <span class="party-count-separator">/</span>
+                  <span class="party-count-total">5</span>
+                </div>
+              </div>
+              <div class="party-controls-modern">
+                <button class="party-control-btn closed">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M12 7V5a4 4 0 10-8 0v2H3c-.6 0-1 .4-1 1v6c0 .6.4 1 1 1h10c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1h-1zm-2 0H6V5a2 2 0 114 0v2z" fill="currentColor"/>
+                  </svg>
+                  Closed Party
+                </button>
+                <button class="party-control-btn code">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  Party Code
+                </button>
+              </div>
+            </div>
+
+            <!-- Modern Party Grid -->
+            <div class="party-grid-modern">
+              <!-- Slot 1: You (Leader) -->
+              <div class="party-card filled leader" id="slot-1">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="agent-avatar">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-inner">SO</div>
+                    <div class="leader-crown">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10l-3 1.5.5-3.5L3 5.5l3.5-.5L8 2z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="player-details">
+                    <div class="player-name-modern">Shadow</div>
+                    <div class="player-status">
+                      <div class="status-dot ready"></div>
+                      <span>Ready</span>
+                    </div>
+                  </div>
+                  <button class="card-action-btn" id="change-agent-btn">
+                    <span>Change</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Empty Slots (Modern) -->
+              <div class="party-card empty" data-slot="2">
+                <div class="card-content-empty">
+                  <div class="empty-avatar">
+                    <div class="empty-plus">+</div>
+                  </div>
+                  <div class="empty-label">Waiting for player...</div>
+                </div>
+              </div>
+
+              <div class="party-card empty" data-slot="3">
+                <div class="card-content-empty">
+                  <div class="empty-avatar">
+                    <div class="empty-plus">+</div>
+                  </div>
+                  <div class="empty-label">Waiting for player...</div>
+                </div>
+              </div>
+
+              <div class="party-card empty" data-slot="4">
+                <div class="card-content-empty">
+                  <div class="empty-avatar">
+                    <div class="empty-plus">+</div>
+                  </div>
+                  <div class="empty-label">Waiting for player...</div>
+                </div>
+              </div>
+
+              <div class="party-card empty" data-slot="5">
+                <div class="card-content-empty">
+                  <div class="empty-avatar">
+                    <div class="empty-plus">+</div>
+                  </div>
+                  <div class="empty-label">Waiting for player...</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modern Start Game Button -->
+            <button class="start-game-btn-modern" id="start-game-btn">
+              <div class="btn-glow"></div>
+              <div class="btn-content">
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M6 4l10 6-10 6V4z" fill="currentColor"/>
+                </svg>
+                <span class="btn-text">START GAME</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Friends Sidebar -->
+        <div class="friends-sidebar">
+          <div class="friends-panel">
+            <div class="friends-header">
+              <h3>Friends</h3>
+              <div class="friends-header-actions">
+                <button class="add-friend-btn" onclick="toggleFriendRequestModal()" title="Add Friend">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Person -->
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                    <!-- Plus icon overlay -->
+                    <circle cx="19" cy="8" r="4" fill="#1E293B" stroke="currentColor" stroke-width="2"/>
+                    <path d="M19 6v4M17 8h4" stroke-width="2.5"/>
+                  </svg>
+                </button>
+                <span class="friends-count" id="friends-online">0 ONLINE</span>
+              </div>
+            </div>
+            <div class="friends-list" id="friends-list">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARACTERS TAB -->
+    <div class="tab-content" id="tab-characters">
+      <div class="characters-container">
+        <h2 class="page-title">Select Your Character</h2>
+        <div class="characters-grid" id="characters-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SEASON TAB -->
+    <div class="tab-content" id="tab-season">
+      <div class="coming-soon-container">
+        <div class="coming-soon-icon">🏆</div>
+        <h2 class="coming-soon-title">Seasons Coming Soon</h2>
+        <p class="coming-soon-description">Battle passes, seasonal content, and exclusive rewards will be available once the game launches.</p>
+        <div class="coming-soon-features">
+          <div class="feature-item">✨ Seasonal Battle Pass</div>
+          <div class="feature-item">🎁 Exclusive Rewards</div>
+          <div class="feature-item">🏅 Seasonal Challenges</div>
+          <div class="feature-item">👑 Competitive Rankings</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHALLENGES TAB -->
+    <div class="tab-content" id="tab-challenges">
+      <div class="coming-soon-container">
+        <div class="coming-soon-icon">🎯</div>
+        <h2 class="coming-soon-title">Challenges Coming Soon</h2>
+        <p class="coming-soon-description">Daily and weekly challenges will be available to earn rewards once the game launches.</p>
+        <div class="coming-soon-features">
+          <div class="feature-item">📅 Daily Challenges</div>
+          <div class="feature-item">📆 Weekly Missions</div>
+          <div class="feature-item">💎 XP Rewards</div>
+          <div class="feature-item">🏆 Achievement System</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCHES TAB -->
+    <div class="tab-content" id="tab-matches">
+      <div class="coming-soon-container">
+        <div class="coming-soon-icon">📊</div>
+        <h2 class="coming-soon-title">Match History Coming Soon</h2>
+        <p class="coming-soon-description">View your match statistics, performance, and history once you start playing.</p>
+        <div class="coming-soon-features">
+          <div class="feature-item">📈 Performance Stats</div>
+          <div class="feature-item">🎮 Match Replays</div>
+          <div class="feature-item">🏅 Rankings & Leaderboards</div>
+          <div class="feature-item">📊 Detailed Analytics</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-content" id="tab-settings">
+      <div class="settings-container">
+        <h2 class="settings-title">Settings</h2>
+        
+        <div class="settings-section">
+          <h3 class="settings-section-title">Audio</h3>
+          <div class="setting-item">
+            <label class="setting-label">Master Volume</label>
+            <div class="setting-control">
+              <input type="range" class="slider" id="volume-setting" min="0" max="100" value="50">
+              <span class="setting-value" id="volume-value">50%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="settings-section-title">Graphics</h3>
+          <div class="setting-item">
+            <label class="setting-label">Quality Preset</label>
+            <div class="setting-control">
+              <select class="dropdown" id="graphics-setting">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high" selected>High</option>
+                <option value="ultra">Ultra</option>
+                <option value="epic">Epic</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3 class="settings-section-title">Game</h3>
+          <div class="setting-item">
+            <label class="setting-label">Selected Character</label>
+            <div class="setting-control">
+              <span class="setting-value" id="selected-char-display">Shadow Operative</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="save-button" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+
+    </div><!-- End Main Content Area -->
+
+  </div><!-- End Main Menu -->
+
+  <!-- Friend Request Modal -->
+  <div class="friend-request-modal" id="friend-request-modal" onclick="closeFriendRequestModal(event)">
+    <div class="friend-request-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="toggleFriendRequestModal()">✕</button>
+      
+      <h2 class="modal-title">Add Friend</h2>
+      <p class="modal-subtitle">Enter your friend's username and 5-digit User ID</p>
+      
+      <div class="form-group">
+        <label for="friend-name-input">Username</label>
+        <input 
+          type="text" 
+          id="friend-name-input" 
+          class="form-input" 
+          placeholder="Enter username"
+          maxlength="20"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="friend-id-input">User ID</label>
+        <input 
+          type="text" 
+          id="friend-id-input" 
+          class="form-input" 
+          placeholder="12345"
+          maxlength="5"
+          pattern="[0-9]*"
+        />
+      </div>
+
+      <div class="form-message error" id="friend-request-error"></div>
+      <div class="form-message success" id="friend-request-success"></div>
+
+      <div class="modal-actions">
+        <button class="modal-btn secondary" onclick="toggleFriendRequestModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="sendFriendRequest()">Send Request</button>
+      </div>
+
+      <div class="user-id-display">
+        <span class="user-id-label">Your ID:</span>
+        <span class="user-id-value">12345</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Character Details Popup -->
+  <div class="character-popup" id="character-popup">
+    <div class="popup-overlay" onclick="closeCharacterDetails()"></div>
+    <div class="popup-content">
+      <button class="popup-close" onclick="closeCharacterDetails()">✕</button>
+      
+      <div class="popup-header">
+        <div class="popup-char-icon" id="popup-char-icon">SO</div>
+        <div class="popup-char-info">
+          <h2 class="popup-char-name" id="popup-char-name">Shadow Operative</h2>
+          <span class="popup-char-role" id="popup-char-role">Challenger</span>
+        </div>
+      </div>
+
+      <p class="popup-char-description" id="popup-char-description">
+        A skilled challenger specializing in aggressive plays and entry fragging.
+      </p>
+
+      <div class="popup-section">
+        <h3 class="section-title">
+          <span class="section-icon">🔫</span>
+          Unique Weapon
+        </h3>
+        <div class="weapon-card">
+          <div class="weapon-header">
+            <span class="weapon-name" id="popup-weapon-name">Shadow Strike Pistol</span>
+            <span class="weapon-type" id="popup-weapon-type">Pistol</span>
+          </div>
+          <p class="weapon-description" id="popup-weapon-desc">
+            Each kill increases fire rate and reload speed until the end of the round
+          </p>
+        </div>
+      </div>
+
+      <div class="popup-section">
+        <h3 class="section-title">
+          <span class="section-icon">⚡</span>
+          Abilities
+        </h3>
+        <div class="abilities-list" id="popup-abilities">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button class="popup-btn primary full-width" onclick="closeCharacterDetails()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
