@@ -114,10 +114,10 @@ body {
 /* Semi-Circular Sidebar Navigation */
 .sidebar-nav {
   position: fixed;
-  left: -200px;
+  left: 0;
   top: 40px;
   bottom: 0;
-  width: 250px;
+  width: 80px; /* Collapsed width showing only icons */
   background: linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%);
   backdrop-filter: blur(20px);
   border-radius: 0 50% 50% 0;
@@ -129,7 +129,7 @@ body {
 
 .sidebar-nav:hover,
 .sidebar-nav.active {
-  left: 0;
+  width: 250px; /* Expanded width showing labels */
 }
 
 .sidebar-content {
@@ -137,7 +137,13 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 40px 20px 40px 30px;
+  padding: 40px 10px; /* Reduced padding for collapsed state */
+  transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav:hover .sidebar-content,
+.sidebar-nav.active .sidebar-content {
+  padding: 40px 20px 40px 30px; /* Expanded padding */
 }
 
 .sidebar-tabs {
@@ -150,7 +156,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 20px;
+  padding: 16px 12px; /* Centered padding for icons */
   background: transparent;
   border: none;
   border-left: 3px solid transparent;
@@ -165,6 +171,11 @@ body {
   border-radius: 0 25px 25px 0;
 }
 
+.sidebar-nav:hover .sidebar-tab,
+.sidebar-nav.active .sidebar-tab {
+  padding: 16px 20px; /* Expanded padding */
+}
+
 .sidebar-tab .tab-icon {
   font-size: 22px;
   width: 28px;
@@ -173,6 +184,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  opacity: 1; /* Always visible */
 }
 
 .sidebar-tab .tab-label {
