@@ -128,9 +128,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Game Mode")
 	void AssignPlayerToTeam(AController* PlayerController, ETeam Team);
 
+	UFUNCTION(BlueprintCallable, Category = "Game Mode")
+	AActor* GetTeamSpawnPoint(ETeam Team);
+
+	UFUNCTION(BlueprintCallable, Category = "Game Mode")
+	void AutoAssignTeams();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 private:
 	// Round management

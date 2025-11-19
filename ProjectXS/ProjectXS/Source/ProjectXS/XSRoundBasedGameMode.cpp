@@ -1,9 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "XSRoundBasedGameMode.h"
+#include "XSTeamPlayerStart.h"
 #include "TimerManager.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
+#include "EngineUtils.h"
 
 AXSRoundBasedGameMode::AXSRoundBasedGameMode()
 {
@@ -27,6 +30,50 @@ void AXSRoundBasedGameMode::BeginPlay()
 	// Start first round after a delay
 	FTimerHandle StartDelayHandle;
 	GetWorld()->GetTimerManager().SetTimer(StartDelayHandle, this, &AXSRoundBasedGameMode::StartNewRound, 3.f, false);
+	
+	// Auto-assign teams for existing players
+	AutoAssignTeams();
+}
+
+void AXSRoundBasedGameMode::PostLogin(APlayerController* NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+	
+	// Auto-assign new player to team
+	if (NewPlayer)
+	{
+		// Assign to team with fewer players
+		int32 GuardiansCount = 0;
+		int32 DevilsCount = 0;
+		
+		for (const auto& Pair : PlayerTeams)
+		{
+			if (Pair.Value == ETeam::Guardians)
+				GuardiansCount++;
+			else if (Pair.Value == ETeam::Devils)
+				DevilsCount++;
+		}
+		
+		ETeam AssignedTeam = (GuardiansCount <= DevilsCount) ? ETeam::Guardians : ETeam::Devils;
+		AssignPlayerToTeam(NewPlayer, AssignedTeam);
+		
+		UE_LOG(LogTemp, Log, TEXT("New player joined - Auto-assigned to %s (G:%d D:%d)"),
+			AssignedTeam == ETeam::Guardians ? TEXT("Guardians") : TEXT("Devils"),
+			GuardiansCount, DevilsCount);
+	}
+}
+
+AActor* AXSRoundBasedGameMode::ChoosePlayerStart_Implementation(AController* Player)
+{
+	if (!Player)
+		return Super::ChoosePlayerStart_Implementation(Player);
+	
+	ETeam PlayerTeam = GetPlayerTeam(Player);
+	if (PlayerTeam == ETeam::None)
+		return Super::ChoosePlayerStart_Implementation(Player);
+	
+	AActor* SpawnPoint = GetTeamSpawnPoint(PlayerTeam);
+	return SpawnPoint ? SpawnPoint : Super::ChoosePlayerStart_Implementation(Player);
 }
 
 void AXSRoundBasedGameMode::Tick(float DeltaTime)
@@ -265,4 +312,52 @@ void AXSRoundBasedGameMode::AssignPlayerToTeam(AController* PlayerController, ET
 		Team == ETeam::Guardians ? TEXT("Guardians") : TEXT("Devils"));
 	
 	UpdateAliveCounts();
+}
+
+void AXSRoundBasedGameMode::AutoAssignTeams()
+{
+	TArray<APlayerController*> AllPlayers;
+	
+	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+	{
+		APlayerController* PC = It->Get();
+		if (PC && !PlayerTeams.Contains(PC))
+		{
+			AllPlayers.Add(PC);
+		}
+	}
+	
+	// Alternate assigning to teams
+	for (int32 i = 0; i < AllPlayers.Num(); i++)
+	{
+		ETeam Team = (i % 2 == 0) ? ETeam::Guardians : ETeam::Devils;
+		AssignPlayerToTeam(AllPlayers[i], Team);
+	}
+	
+	UE_LOG(LogTemp, Log, TEXT("Auto-assigned %d players to teams"), AllPlayers.Num());
+}
+
+AActor* AXSRoundBasedGameMode::GetTeamSpawnPoint(ETeam Team)
+{
+	// Find all team-specific spawn points
+	TArray<AXSTeamPlayerStart*> TeamSpawns;
+	
+	for (TActorIterator<AXSTeamPlayerStart> It(GetWorld()); It; ++It)
+	{
+		AXSTeamPlayerStart* SpawnPoint = *It;
+		if (SpawnPoint && SpawnPoint->Team == Team)
+		{
+			TeamSpawns.Add(SpawnPoint);
+		}
+	}
+	
+	if (TeamSpawns.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No spawn points found for team %d, using default"), (int32)Team);
+		return nullptr;
+	}
+	
+	// Return random spawn from available
+	int32 RandomIndex = FMath::RandRange(0, TeamSpawns.Num() - 1);
+	return TeamSpawns[RandomIndex];
 }
