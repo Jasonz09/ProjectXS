@@ -51,8 +51,14 @@ ipcMain.on('minimize-window', () => {
   mainWindow.minimize();
 });
 
+// Graceful close: replace default close handler so watchdog can detect clean exits
 ipcMain.on('close-window', () => {
-  mainWindow.close();
+  if (mainWindow) {
+    mainWindow.close();
+  }
+  // Ensure we exit with code 0 for clean shutdowns initiated by the user
+  process.exitCode = 0;
+  app.quit();
 });
 
 // Handle OAuth login
@@ -244,4 +250,12 @@ ipcMain.on('load-settings', (event) => {
       graphics: 'high'
     });
   }
+});
+
+// Log and set non-zero exitCode on uncaught exceptions so watchdog restarts on crashes
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception in launcher:', err);
+  // Set a non-zero exit code so the watchdog will attempt a restart
+  process.exitCode = 1;
+  // Allow process to exit naturally (watchdog will restart)
 });

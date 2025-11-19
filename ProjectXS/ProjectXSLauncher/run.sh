@@ -65,4 +65,10 @@ echo ""
 echo "======================================"
 echo ""
 
+# You can run the launcher directly with `npm start` or use the included watchdog
+# script to automatically restart the launcher on crashes. The watchdog will
+# NOT restart the launcher if it exits cleanly (exit code 0).
+# To run the watchdog in the background:
+#   ./watchdog_start_launcher.sh &
+
 npm start
