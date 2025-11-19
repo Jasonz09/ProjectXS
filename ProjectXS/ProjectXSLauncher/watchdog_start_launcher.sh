@@ -2,7 +2,29 @@
 # Simple watchdog to keep the ProjectXS launcher running
 WORKDIR="/Users/jasonzhao/Documents/Unreal Projects/ProjectXS/ProjectXSLauncher"
 LOGFILE="$WORKDIR/launcher_watchdog.log"
+PIDFILE="$WORKDIR/launcher_watchdog.pid"
 cd "$WORKDIR" || exit 1
+
+# Prevent multiple watchdog instances
+if [ -f "$PIDFILE" ]; then
+  OLD_PID=$(cat "$PIDFILE" 2>/dev/null)
+  if [ -n "$OLD_PID" ] && kill -0 "$OLD_PID" 2>/dev/null; then
+    echo "[$(date -u '+%Y-%m-%d %H:%M:%S')] Watchdog already running with PID $OLD_PID - exiting." >> "$LOGFILE"
+    exit 0
+  else
+    echo "[$(date -u '+%Y-%m-%d %H:%M:%S')] Stale PID file found - cleaning up." >> "$LOGFILE"
+    rm -f "$PIDFILE"
+  fi
+fi
+
+# Write our PID
+echo $$ > "$PIDFILE"
+
+# Ensure PID file is removed on exit
+cleanup() {
+  rm -f "$PIDFILE"
+}
+trap cleanup EXIT
 
 while true; do
   echo "[$(date -u '+%Y-%m-%d %H:%M:%S')] Starting launcher..." >> "$LOGFILE"

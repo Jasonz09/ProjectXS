@@ -3,6 +3,14 @@ const path = require('path');
 const { exec } = require('child_process');
 const fs = require('fs');
 
+// Prevent multiple instances: if another instance is started, focus the first and exit
+const gotTheLock = app.requestSingleInstanceLock && app.requestSingleInstanceLock();
+if (gotTheLock === false) {
+  // Another instance is already running - exit this one
+  console.log('Another launcher instance is running. Exiting this instance.');
+  app.quit();
+}
+
 let mainWindow;
 const API_URL = 'http://localhost:3001/api';
 
